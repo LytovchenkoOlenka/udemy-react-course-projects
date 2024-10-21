@@ -29,7 +29,6 @@ export default function Examples() {
       <Tabs
         buttons={
           <>
-            {" "}
             <TabButton
               isSelected={selectedTopic === "components"}
               onClick={() => handleClick("components")}
