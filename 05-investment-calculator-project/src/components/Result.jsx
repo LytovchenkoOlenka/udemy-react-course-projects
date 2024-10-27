@@ -10,7 +10,7 @@ export default function Result({ data }) {
 
   return (
     <section>
-      <table id="result" className="center">
+      <table id="result">
         <thead>
           <tr>
             <th>Year</th>
