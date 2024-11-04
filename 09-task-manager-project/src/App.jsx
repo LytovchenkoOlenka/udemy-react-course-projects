@@ -11,7 +11,7 @@ function App() {
     projects: [],
   });
 
-  function handleAddProject() {
+  function handleStartAddProject() {
     setProjectsState((prevState) => {
       return {
         ...prevState,
@@ -20,12 +20,29 @@ function App() {
     });
   }
 
+  function handleAddProject(projectData) {
+    setProjectsState((prevState) => {
+      const newProject = {
+        ...projectData,
+        id: Math.random(),
+      };
+      return {
+        ...prevState,
+        projects: [...prevState.projects, newProject],
+      };
+    });
+  }
+
+  console.log(projectsState);
+
   return (
     <main className="h-screen my-8 flex gap-8">
-      <SideBar onAddProject={handleAddProject} />
-      {projectsState.selectedProjectId === null && <AddProject />}
+      <SideBar onAddProject={handleStartAddProject} />
+      {projectsState.selectedProjectId === null && (
+        <AddProject onAdd={handleAddProject} />
+      )}
       {projectsState.selectedProjectId === undefined && (
-        <NoProjectSelected onAddProject={handleAddProject} />
+        <NoProjectSelected onAddProject={handleStartAddProject} />
       )}
 
       {/* <ProjectCard /> */}

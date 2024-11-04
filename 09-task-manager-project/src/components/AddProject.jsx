@@ -1,6 +1,24 @@
 import Input from "./Input";
+import { useRef, useState } from "react";
 
-export default function AddProject() {
+export default function AddProject({ onAdd }) {
+  const title = useRef();
+  const description = useRef();
+  const dueDate = useRef();
+
+  function handleSave() {
+    const enteredTitle = title.current.value;
+    const enteredDescription = description.current.value;
+    const enteredDueDate = dueDate.current.value;
+
+    //validation...
+    onAdd({
+      title: enteredTitle,
+      description: enteredDescription,
+      dueDate: enteredDueDate,
+    });
+  }
+
   return (
     <div className="w-[35rem] mt-16">
       <menu className="flex items-center justify-end gap-4 my-4">
@@ -10,15 +28,19 @@ export default function AddProject() {
           </button>
         </li>
         <li>
-          <button className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950">
+          <button
+            type="submit"
+            onClick={handleSave}
+            className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950"
+          >
             Save
           </button>
         </li>
       </menu>
       <form>
-        <Input lebel="Title" />
-        <Input lebel="Description" textarea />
-        <Input lebel="Due date" type="date" />
+        <Input ref={title} lebel="Title" type="text" />
+        <Input ref={description} lebel="Description" textarea />
+        <Input ref={dueDate} lebel="Due date" type="date" />
       </form>
     </div>
   );
