@@ -1,4 +1,12 @@
-export default function ProjectCard({ project }) {
+import Tasks from "./Tasks";
+
+export default function ProjectCard({
+  project,
+  onDeleteProject,
+  onAddTask,
+  onDeleteTask,
+  tasks,
+}) {
   const formattedDate = new Date(project.dueDate).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -12,7 +20,10 @@ export default function ProjectCard({ project }) {
           <h1 className="text-3xl font-bold text-stone-600 mb-2">
             {project.title}
           </h1>
-          <button className="text-stone-800 hover:text-stone-950">
+          <button
+            onClick={onDeleteProject}
+            className="text-stone-800 hover:text-stone-950"
+          >
             Delete
           </button>
         </div>
@@ -21,17 +32,7 @@ export default function ProjectCard({ project }) {
           {project.description}
         </p>
       </header>
-      <h2 className="text-2xl font-bold text-stone-700 mb-4">Tasks</h2>
-      <div className="flex items-center justify-between">
-        <input className="w-64 px-2 py-1 rounded-sm bg-stone-200" />
-        <button className="text-stone-600 hover:text-stone-950">AddTask</button>
-      </div>
-      <ul className="p-4 mt-8 rounded-md bg-stone-100">
-        <li className="flex justify-between my-4">
-          <p className="text-stone-800 my-4">...lslslsls...</p>
-          <button className="text-stone-700 hover:text-red-500">Clear</button>
-        </li>
-      </ul>
+      <Tasks onAdd={onAddTask} onDelete={onDeleteTask} tasks={tasks} />
     </div>
   );
 }

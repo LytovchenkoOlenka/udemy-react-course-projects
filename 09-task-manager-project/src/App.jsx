@@ -6,10 +6,34 @@ import ProjectCard from "./components/ProjectCard";
 
 function App() {
   const [projectsState, setProjectsState] = useState({
-    currentAction: "",
     selectedProjectId: undefined,
     projects: [],
+    tasks: [],
   });
+
+  function handleAddTask(text) {
+    setProjectsState((prevState) => {
+      const taskId = Math.random();
+      const newTask = {
+        text: text,
+        projectId: prevState.selectedProjectId,
+        id: taskId,
+      };
+      return {
+        ...prevState,
+        tasks: [newTask, ...prevState.tasks],
+      };
+    });
+  }
+
+  function handleDeleteTask(id) {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter((task) => task.id !== id),
+      };
+    });
+  }
 
   function handleStartAddProject() {
     setProjectsState((prevState) => {
@@ -55,7 +79,17 @@ function App() {
     (project) => project.id === projectsState.selectedProjectId
   );
 
-  console.log(projectsState);
+  function handleDeleteProject() {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+        projects: prevState.projects.filter(
+          (project) => project.id !== prevState.selectedProjectId
+        ),
+      };
+    });
+  }
 
   return (
     <main className="h-screen my-8 flex gap-8">
@@ -63,6 +97,7 @@ function App() {
         onAddProject={handleStartAddProject}
         projects={projectsState.projects}
         onSelectProject={handleProjectSelect}
+        selectedProjectId={projectsState.selectedProjectId}
       />
       {projectsState.selectedProjectId === null && (
         <AddProject
@@ -74,10 +109,14 @@ function App() {
         <NoProjectSelected onAddProject={handleStartAddProject} />
       )}
       {projectsState.selectedProjectId && (
-        <ProjectCard project={selectedProject} />
+        <ProjectCard
+          project={selectedProject}
+          onDeleteProject={handleDeleteProject}
+          onAddTask={handleAddTask}
+          onDeleteTask={handleDeleteTask}
+          tasks={projectsState.tasks}
+        />
       )}
-
-      {/**/}
     </main>
   );
 }
