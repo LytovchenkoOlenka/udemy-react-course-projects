@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 
-// const TIMER = 3000;
-
 export default function QuestionTimer({ onTimeout, timeout }) {
   const [remainingTime, setRemainingTime] = useState(timeout);
 
   useEffect(() => {
+    console.log("Setting timeout");
     const timer = setTimeout(onTimeout, timeout);
 
     return () => {
@@ -14,9 +13,10 @@ export default function QuestionTimer({ onTimeout, timeout }) {
   }, [onTimeout, timeout]);
 
   useEffect(() => {
+    console.log("Setting interval");
     const interval = setInterval(() => {
-      setRemainingTime((prevTime) => prevTime - 10);
-    }, 10);
+      setRemainingTime((prevTime) => prevTime - 100);
+    }, 100);
 
     return () => {
       clearInterval(interval);
